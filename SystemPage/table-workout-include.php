@@ -14,7 +14,7 @@ $result3 = mysqli_query($db, $query3);
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" />
   </head>
   <body>
-      <h3 align="left">HeartBeat Data while working out<br></h3>
+      <h3 align="left">HeartBeat Data while Working out<br></h3>
       <div class="table-responsive">
         <table id="workout_data" class="table table-striped table-bordered">
           <thead class="thead-dark">

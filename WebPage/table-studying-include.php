@@ -1,8 +1,8 @@
 <?php
 $temp=$_SESSION['username'];
 $db = mysqli_connect('softenggroup2.czmkb4udcq6o.us-east-2.rds.amazonaws.com', 'yuyangchen0122', 'a123123q45', 'HealthMonitoring');
-$query4 = "SELECT * FROM HealthMonitoring.HeartData WHERE username='$temp'";
-$result4 = mysqli_query($db, $query4);
+$query5 = "SELECT * FROM HealthMonitoring.HeartData WHERE username='$temp'";
+$result5 = mysqli_query($db, $query5);
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,7 +16,7 @@ $result4 = mysqli_query($db, $query4);
   <body>
       <h3 align="left">HeartBeat Data while Studying<br></h3>
       <div class="table-responsive">
-        <table id="sleeping_data" class="table table-striped table-bordered">
+        <table id="studying_data" class="table table-striped table-bordered">
           <thead class="thead-dark">
 						<tr>
 							<th scope="col">id</th>
@@ -28,7 +28,7 @@ $result4 = mysqli_query($db, $query4);
 					</tr>
           </thead>
           <?php
-          while($row = mysqli_fetch_array($result4))
+          while($row = mysqli_fetch_array($result5))
           {
           echo '
 					<tr>
@@ -48,6 +48,6 @@ $result4 = mysqli_query($db, $query4);
 </html>
 <script>
 $(document).ready(function(){
-$('#sleeping_data').DataTable();
+$('#studying_data').DataTable();
 });
 </script>
