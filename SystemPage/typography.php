@@ -1,164 +1,4 @@
-<?php
-$connect = mysqli_connect('softenggroup2.czmkb4udcq6o.us-east-2.rds.amazonaws.com', 'yuyangchen0122', 'a123123q45', 'HealthMonitoring');
-$temp=$_SESSION['username'];
-$query = '
-SELECT HeartRate,
-UNIX_TIMESTAMP(CONCAT_WS(Date, Time)) AS datetime , Music
-FROM HeartData where username="yuyangchen0122" 
-ORDER BY Date DESC, Time DESC
-';
-
-$query1 = '
-SELECT HeartRate,
-UNIX_TIMESTAMP(CONCAT_WS(" ", Date, Time)) AS datetime , Music
-FROM HeartData  where username="yuyangchen0122" 
-ORDER BY Date DESC, Time DESC
-';
-
-$query2 = '
-SELECT HeartRate,
-UNIX_TIMESTAMP(CONCAT_WS(" ", Date, Time)) AS datetime , Music
-FROM HeartData where username="yuyangchen0122" 
-ORDER BY Date DESC, Time DESC
-';
-
-$query3 = '
-SELECT HeartRate,
-UNIX_TIMESTAMP(CONCAT_WS(" ", Date, Time)) AS datetime , Music
-FROM HeartData  where username="yuyangchen0122"
-ORDER BY Date DESC, Time DESC
-';
-
-$result = mysqli_query($connect, $query);
-$rows = array();
-$table = array();
-
-$table['cols'] = array(
-	array(
-		'label' => 'Date Time', 
-		'type' => 'datetime'
-	),
-	array(
-		'label' => 'Heart Rate', 
-		'type' => 'number'
-	)
-);
-
-$result1 = mysqli_query($connect, $query1);
-$rows1 = array();
-$table1 = array();
-
-$table1['cols'] = array(
-	array(
-		'label' => 'Date Time', 
-		'type' => 'datetime'
-	),
-	array(
-		'label' => 'Heart Rate', 
-		'type' => 'number'
-	)
-);
-
-$result2 = mysqli_query($connect, $query2);
-$rows2 = array();
-$table2 = array();
-
-$table2['cols'] = array(
-	array(
-		'label' => 'Date Time', 
-		'type' => 'datetime'
-	),
-	array(
-		'label' => 'Heart Rate', 
-		'type' => 'number'
-	)
-);
-
-$result3 = mysqli_query($connect, $query3);
-$rows3 = array();
-$table3 = array();
-
-$table3['cols'] = array(
-	array(
-		'label' => 'Date Time', 
-		'type' => 'datetime'
-	),
-	array(
-		'label' => 'Heart Rate', 
-		'type' => 'number'
-	)
-);
-
-while($row = mysqli_fetch_array($result))
-{
-	$sub_array = array();
-	$datetime = explode(".", $row["datetime"]);
-	$sub_array[] =  array(
-		"v" => 'Date(' . $datetime[0] . '000)'
-	);
-	$sub_array[] =  array(
-		"v" => $row["HeartRate"]
-	);
-	$rows[] =  array(
-		"c" => $sub_array
-	);
-}
-$table['rows'] = $rows;
-$jsonTable = json_encode($table);
-
-while($row = mysqli_fetch_array($result1))
-{
-	$sub_array = array();
-	$datetime = explode(".", $row["datetime"]);
-	$sub_array[] =  array(
-		"v" => 'Date(' . $datetime[0] . '000)'
-	);
-	$sub_array[] =  array(
-		"v" => $row["HeartRate"]
-	);
-	$rows1[] =  array(
-		"c" => $sub_array
-	);
-}
-$table1['rows'] = $rows1;
-$jsonTable = json_encode($table1);
-
-while($row = mysqli_fetch_array($result2))
-{
-	$sub_array = array();
-	$datetime = explode(".", $row["datetime"]);
-	$sub_array[] =  array(
-		"v" => 'Date(' . $datetime[0] . '000)'
-	);
-	$sub_array[] =  array(
-		"v" => $row["HeartRate"]
-	);
-	$rows2[] =  array(
-		"c" => $sub_array
-	);
-}
-$table2['rows'] = $rows2;
-$jsonTable = json_encode($table2);
-
-while($row = mysqli_fetch_array($result3))
-{
-	$sub_array = array();
-	$datetime = explode(".", $row["datetime"]);
-	$sub_array[] =  array(
-		"v" => 'Date(' . $datetime[0] . '000)'
-	);
-	$sub_array[] =  array(
-		"v" => $row["HeartRate"]
-	);
-	$rows3[] =  array(
-		"c" => $sub_array
-	);
-}
-$table3['rows'] = $rows3;
-$jsonTable = json_encode($table3);
-
-?>
-
+<?php include('server.php') ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -191,86 +31,12 @@ $jsonTable = json_encode($table3);
 	<link href="assets/css/themify-icons.css" rel="stylesheet">
 
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script type="text/javascript">
-		google.charts.load('current', {'packages':['corechart']});
-		google.charts.setOnLoadCallback(drawChart);
-		function drawChart()
-		{
-			var data = new google.visualization.DataTable(<?php echo $jsonTable; ?>);
 
-			var options = {
-				title:'Heartbeat Data',
-				legend:{position:'bottom'},
-				chartArea:{width:'95%', height:'65%'
-			}
-		};
-
-		var chart = new google.visualization.LineChart(document.getElementById('line_chart'));
-
-		chart.draw(data, options);
+	<style>
+	.page-wrapper{
+		width:1000px;
+		margin:0 auto;
 	}
-</script>
-<script type="text/javascript">
-		google.charts.load('current', {'packages':['corechart']});
-		google.charts.setOnLoadCallback(drawChart);
-		function drawChart()
-		{
-			var data = new google.visualization.DataTable(<?php echo $jsonTable; ?>);
-			var options = {
-				title:'Heartbeat Data',
-				legend:{position:'bottom'},
-				chartArea:{width:'95%', height:'65%'
-			}
-		};
-
-		var chart = new google.visualization.LineChart(document.getElementById('line_chart1'));
-
-		chart.draw(data, options);
-	}
-</script>
-<script type="text/javascript">
-		google.charts.load('current', {'packages':['corechart']});
-		google.charts.setOnLoadCallback(drawChart);
-		function drawChart()
-		{
-			var data = new google.visualization.DataTable(<?php echo $jsonTable; ?>);
-			var options = {
-				title:'Heartbeat Data',
-				legend:{position:'bottom'},
-				chartArea:{width:'95%', height:'65%'
-			}
-		};
-
-		var chart = new google.visualization.LineChart(document.getElementById('line_chart2'));
-
-		chart.draw(data, options);
-	}
-</script>
-<script type="text/javascript">
-		google.charts.load('current', {'packages':['corechart']});
-		google.charts.setOnLoadCallback(drawChart);
-		function drawChart()
-		{
-			var data = new google.visualization.DataTable(<?php echo $jsonTable; ?>);
-			var options = {
-				title:'Heartbeat Data',
-				legend:{position:'bottom'},
-				chartArea:{width:'95%', height:'65%'
-			}
-		};
-
-		var chart = new google.visualization.LineChart(document.getElementById('line_chart3'));
-
-		chart.draw(data, options);
-	}
-</script>
-
-<style>
-.page-wrapper{
-	width:1000px;
-	margin:0 auto;
-}
 </style>
 
 </head>
@@ -322,12 +88,6 @@ $jsonTable = json_encode($table3);
 					<p>Maps</p>
 				</a>
 			</li>
-			<li>
-				<a href="http://healthmonitoringhomepage-env.5ndteffiz2.us-east-2.elasticbeanstalk.com/">
-					<i class="ti-bell"></i>
-                	<p>Home Page</p>
-            	</a>
-        	</li>
 		</ul>
 	</div>
 </div>
@@ -345,39 +105,39 @@ $jsonTable = json_encode($table3);
 				<a class="navbar-brand" href="#">Typography</a>
 			</div>
 			<div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="ti-bell"></i>
-                        <p>Login/Sign Up</p>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="login.php">Log In</a></li>
-                        <li><a href="register.php">Sign Up</a></li>
-                    </ul>
-                </li>
-                    <li>
-                        <a href="index?logout='1'">
-                            <i class="ti-panel"></i>
-                            <p>Log Out</p>
-                            <?php
-                            if (isset($_GET['logout'])) {
-                             session_destroy();
-                             unset($_SESSION['username']);
-                            }
-                            ?>
-                        </a>
-                    </li>
-                <li>
-                    <a href="#">
-                        <i class="ti-settings"></i>
-                        <p>Settings</p>
-                    </a>
-                </li>
-            </ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="ti-bell"></i>
+							<p>Login/Sign Up</p>
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="login.php">Log In</a></li>
+							<li><a href="register.php">Sign Up</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="index?logout='1'">
+							<i class="ti-panel"></i>
+							<p>Log Out</p>
+							<?php
+							if (isset($_GET['logout'])) {
+								session_destroy();
+								unset($_SESSION['username']);
+							}
+							?>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="ti-settings"></i>
+							<p>Settings</p>
+						</a>
+					</li>
+				</ul>
 
-        </div>
+			</div>
 		</div>
 	</nav>
 
@@ -392,41 +152,66 @@ $jsonTable = json_encode($table3);
 								This section provides you with your heart rate charts
 							</h4>
 						</div>
-						<div class="content">
-							<body>
-								<div class="page-wrapper">
-									<br />
-									<h2 align="center">Heart Rate Graph & No Activity</h2>
-									<div id="line_chart" style="width: 93%; height: 500px"></div>
+						
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="header">
+											<h4 class="title"><strong>Your Heart Rate while No activity</strong></h4>
+											<p class="category">This is your personal health data recording center, and improving your health life index is the unchanging goal of our team </p>
+										</div>
+										<div class="content table-responsive table-full-width">
+											<?php include 'graph_noactivity.php';?>
+										</div>
+									</div>
 								</div>
-							</body>
+							</div>
 						</div>
-						<div class="content">
-							<body>
-								<div class="page-wrapper">
-									<br />
-									<h2 align="center">Heart Rate Graph & Workout</h2>
-									<div id="line_chart1" style="width: 93%; height: 500px"></div>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="header">
+											<h4 class="title"><strong>Your Heart Rate while Workout</strong></h4>
+											<p class="category">This is your personal health data recording center, and improving your health life index is the unchanging goal of our team </p>
+										</div>
+										<div class="content table-responsive table-full-width">
+											<?php include 'graph_workout.php';?>
+										</div>
+									</div>
 								</div>
-							</body>
+							</div>
 						</div>
-						<div class="content">
-							<body>
-								<div class="page-wrapper">
-									<br />
-									<h2 align="center">Heart Rate Graph & Sleeping</h2>
-									<div id="line_chart2" style="width: 93%; height: 500px"></div>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="header">
+											<h4 class="title"><strong>Your Heart Rate while Studying</strong></h4>
+											<p class="category">This is your personal health data recording center, and improving your health life index is the unchanging goal of our team </p>
+										</div>
+										<div class="content table-responsive table-full-width">
+											<?php include 'graph_studying.php';?>
+										</div>
+									</div>
 								</div>
-							</body>
+							</div>
 						</div>
-						<div class="content">
-							<body>
-								<div class="page-wrapper">
-									<br />
-									<h2 align="center">Heart Rate Graph & Studying</h2>
-									<div id="line_chart3" style="width: 93%; height: 500px"></div>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="header">
+											<h4 class="title"><strong>Your Heart Rate while Sleeping</strong></h4>
+											<p class="category">This is your personal health data recording center, and improving your health life index is the unchanging goal of our team </p>
+										</div>
+										<div class="content table-responsive table-full-width">
+											<?php include 'graph_sleeping.php';?>
+										</div>
+									</div>
 								</div>
-							</body>
+							</div>
 						</div>
 					</div>
 				</div>

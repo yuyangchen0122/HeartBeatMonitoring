@@ -1,7 +1,7 @@
 <?php
 $temp=$_SESSION['username'];
 $db = mysqli_connect('softenggroup2.czmkb4udcq6o.us-east-2.rds.amazonaws.com', 'yuyangchen0122', 'a123123q45', 'HealthMonitoring');
-$query2 = "SELECT * FROM HealthMonitoring.HeartData WHERE username='$temp'";
+$query2 = "SELECT * FROM HealthMonitoring.HeartData WHERE username='$temp' AND activity='NoActivity'";
 $result2 = mysqli_query($db, $query2);
 ?>
 <!DOCTYPE html>
@@ -24,7 +24,11 @@ $result2 = mysqli_query($db, $query2);
 							<th scope="col">HeartRate</th>
 							<th scope="col">Date</th>
 							<th scope="col">Time</th>
-							<th scope="col">Music</th>
+							<th scope="col">type</th>
+              <th scope="col">lat</th>
+              <th scope="col">lng</th>
+              <th scope="col">address</th>
+              <th scope="col">activity</th>
 					</tr>
           </thead>
           <?php
@@ -37,7 +41,11 @@ $result2 = mysqli_query($db, $query2);
 								<td>'.$row["HeartRate"].'</td>
 								<td>'.$row["Date"].'</td>
 								<td>'.$row["Time"].'</td>
-								<td>'.$row["Music"].'</td>
+								<td>'.$row["type"].'</td>
+                <td>'.$row["lat"].'</td>
+                <td>'.$row["lng"].'</td>
+                <td>'.$row["address"].'</td>
+                <td>'.$row["activity"].'</td>
 						</tr>
 					';
           }
