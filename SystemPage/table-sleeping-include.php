@@ -1,7 +1,7 @@
 <?php
 $temp=$_SESSION['username'];
 $db = mysqli_connect('softenggroup2.czmkb4udcq6o.us-east-2.rds.amazonaws.com', 'yuyangchen0122', 'a123123q45', 'HealthMonitoring');
-$query4 = "SELECT * FROM HealthMonitoring.HeartData WHERE username='$temp' AND activity='Sleeping'";
+$query4 = "SELECT * FROM HealthMonitoring.HeartData WHERE username='$temp'";
 $result4 = mysqli_query($db, $query4);
 ?>
 <!DOCTYPE html>
@@ -18,36 +18,28 @@ $result4 = mysqli_query($db, $query4);
       <div class="table-responsive">
         <table id="sleeping_data" class="table table-striped table-bordered">
           <thead class="thead-dark">
-            <tr>
-              <th scope="col">id</th>
-              <th scope="col">username</th>
-              <th scope="col">HeartRate</th>
-              <th scope="col">Date</th>
-              <th scope="col">Time</th>
-              <th scope="col">type</th>
-              <th scope="col">lat</th>
-              <th scope="col">lng</th>
-              <th scope="col">address</th>
-              <th scope="col">activity</th>
-          </tr>
+						<tr>
+							<th scope="col">id</th>
+							<th scope="col">username</th>
+							<th scope="col">HeartRate</th>
+							<th scope="col">Date</th>
+							<th scope="col">Time</th>
+							<th scope="col">Music</th>
+					</tr>
           </thead>
           <?php
           while($row = mysqli_fetch_array($result4))
           {
           echo '
-          <tr>
-                <td>'.$row["id"].'</td>
-                <td>'.$row["username"].'</td>
-                <td>'.$row["HeartRate"].'</td>
-                <td>'.$row["Date"].'</td>
-                <td>'.$row["Time"].'</td>
-                <td>'.$row["type"].'</td>
-                <td>'.$row["lat"].'</td>
-                <td>'.$row["lng"].'</td>
-                <td>'.$row["address"].'</td>
-                <td>'.$row["activity"].'</td>
-            </tr>
-          ';
+					<tr>
+								<td>'.$row["id"].'</td>
+								<td>'.$row["username"].'</td>
+								<td>'.$row["HeartRate"].'</td>
+								<td>'.$row["Date"].'</td>
+								<td>'.$row["Time"].'</td>
+								<td>'.$row["Music"].'</td>
+						</tr>
+					';
           }
           ?>
         </table>

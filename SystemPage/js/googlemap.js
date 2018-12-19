@@ -31,7 +31,7 @@ function showAllColleges(allData) {
 		content.appendChild(strong);
 
 		var bpm = document.createElement('bpm');
-		strong.textContent = data.HeartRate;
+		bpm.textContent = data.HeartRate;
 		content.appendChild(bpm);
 
 		var date = document.createElement('date');
@@ -41,14 +41,6 @@ function showAllColleges(allData) {
 		var time = document.createElement('time');
 		time.textContent = data.Time;
 		content.appendChild(time);
-
-		var addr = document.createElement('addr');
-		addr.textContent = data.address;
-		content.appendChild(addr);
-
-		var music = document.createElement('music');
-		music.textContent = data.type;
-		content.appendChild(music);
 
 		var marker = new google.maps.Marker({
 	      position: new google.maps.LatLng(data.lat, data.lng),
